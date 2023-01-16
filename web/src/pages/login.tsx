@@ -2,6 +2,7 @@ import { AppIcon } from "@/assets/icons/app";
 import { Form, InputForm, InputPasswordForm } from "@/components/form";
 import { InputCheckboxForm } from "@/components/form/input-checkbox-form";
 import { HeadHTML } from "@/layout/head-html";
+import { AuthService } from "@/services";
 import {
   Box,
   Button,
@@ -13,11 +14,12 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { GetServerSideProps } from "next";
 import NextLink from "next/link";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 
-export default function Login() {
+export default function Login(props: any) {
   const validation = yup.object({
     email: yup.string().email().required(),
     password: yup.string().min(8).required(),
@@ -35,8 +37,14 @@ export default function Login() {
     },
   });
 
-  const onSubmit = (data: any) => {
-    console.log(data);
+  const onSubmit = async (data: FormData) => {
+    try {
+      const response = await AuthService.login(data.email, data.password);
+
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -119,6 +127,7 @@ export default function Login() {
                   backgroundColor="#08979C"
                   _hover={{ backgroundColor: "#40A9AC" }}
                   type="submit"
+                  isLoading={methods.formState.isSubmitting}
                 >
                   Log In
                 </Button>
@@ -159,3 +168,12 @@ export default function Login() {
     </>
   );
 }
+
+// get server side props
+export const getServerSideProps: GetServerSideProps = async () => {
+  await AuthService.getCSRFToken();
+
+  return {
+    props: {},
+  };
+};
