@@ -13,14 +13,30 @@ export class AuthService {
   }
 
   static async login(email: string, password: string): Promise<any> {
-    return api.post(
-      "/api/login",
-      { email, password },
-      {
-        headers: {
-          accept: "application/json",
-        },
-      }
-    );
+    return api.post("/api/auth/login", { email, password });
+  }
+
+  static async register(
+    name: string,
+    email: string,
+    password: string,
+    confirmPassword: string
+  ): Promise<any> {
+    return api
+      .post("/api/auth/register", {
+        name,
+        email,
+        password,
+        password_confirmation: confirmPassword,
+      })
+      .then((response) => response.data);
+  }
+
+  static async resendCode(email: string): Promise<void> {
+    await api.post("/api/auth/resend-code", { email });
+  }
+
+  static async verifyCode(email: string, code: string): Promise<void> {
+    await api.post("/api/auth/verify-code", { email, code });
   }
 }

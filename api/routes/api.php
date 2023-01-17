@@ -1,6 +1,9 @@
 <?php
 
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\ResendVerificationCodeController;
+use App\Http\Controllers\Auth\VerifyRegistrationCodeController;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -21,7 +24,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/login', [LoginController::class, 'login']);
+Route::prefix('auth')->group(function () {
+    Route::post('/login', LoginController::class);
+    Route::post('/register', RegisterController::class);
+    Route::post('/verify-code', VerifyRegistrationCodeController::class);
+    Route::post('/resend-code', ResendVerificationCodeController::class);
+});
+
 
 Route::get('/test', function () {
     $user = User::factory()->create([

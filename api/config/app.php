@@ -212,4 +212,19 @@ return [
         // 'ExampleClass' => App\Example\ExampleClass::class,
     ])->toArray(),
 
+    /*
+    |--------------------------------------------------------------------------
+    | Custom Configurations
+    |--------------------------------------------------------------------------
+    |
+    | This array of custom configurations will be registered when this
+    | application is started. However, feel free to register as many as you
+    | wish as the configurations are "lazy" loaded so they don't hinder
+    | performance.
+    |
+    */
+    'frontend' => [
+        'url' => env('FRONTEND_URL', 'http://localhost:3001'),
+    ],
+
 ];

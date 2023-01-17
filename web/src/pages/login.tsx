@@ -1,12 +1,11 @@
-import { AppIcon } from "@/assets/icons/app";
 import { Form, InputForm, InputPasswordForm } from "@/components/form";
 import { InputCheckboxForm } from "@/components/form/input-checkbox-form";
+import { AuthHeader } from "@/layout/auth";
 import { HeadHTML } from "@/layout/head-html";
 import { AuthService } from "@/services";
 import {
   Box,
   Button,
-  Container,
   Flex,
   Heading,
   Image,
@@ -52,17 +51,7 @@ export default function Login(props: any) {
       <HeadHTML title="Login" />
       {/* Title App */}
       <Box height="100vh" width="100vw">
-        <Container maxWidth="1440px">
-          <Flex
-            backgroundColor="white"
-            height="70px"
-            justifyContent="center"
-            alignItems="center"
-          >
-            <AppIcon />
-            <Heading ml="20px">Feed4Function</Heading>
-          </Flex>
-        </Container>
+        <AuthHeader />
         <Flex
           flex={1}
           height="calc(100vh - 70px)"
