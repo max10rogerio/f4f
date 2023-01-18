@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Constants\Roles;
 use App\Http\Controllers\Controller;
 use App\Mail\UserRegistrationCode;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class RegisterController extends Controller
 {
@@ -26,7 +28,9 @@ class RegisterController extends Controller
       'name' => $request->name,
       'email' => $request->email,
       'password' => Hash::make($request->password),
-      'verification_code' => $code
+      'verification_code' => $code,
+      'role' => Roles::COACH,
+      'remember_token' => Str::random(10),
     ]);
 
     $token = $user->createToken('JWT')->plainTextToken;

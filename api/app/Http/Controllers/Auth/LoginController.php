@@ -35,7 +35,6 @@ class LoginController extends Controller
     $token = $user->createToken('JWT')->plainTextToken;
 
     $response = [
-      'user' => $user,
       'token' => $token
     ];
 

@@ -13,16 +13,15 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import NextLink from "next/link";
-import { useRouter } from "next/router";
 import { useState } from "react";
 
 export type VerificationCodeProps = {
   email: string;
   code?: string;
+  onVerificationFinished: () => void;
 };
 
 export const VerificationCode = (props: VerificationCodeProps) => {
-  const router = useRouter();
   const toast = useToast();
   const [code, setCode] = useState(props.code || "");
   const [isVerifying, setIsVerifying] = useState(false);
@@ -45,15 +44,7 @@ export const VerificationCode = (props: VerificationCodeProps) => {
       await AuthService.verifyCode(props.email, code);
       setIsVerifying(false);
 
-      toast({
-        title: "Email verified",
-        description: "Your email has been verified",
-        status: "success",
-        position: "top-right",
-        isClosable: true,
-      });
-
-      router.push("/login");
+      props.onVerificationFinished();
     } catch (error) {
       setIsVerifying(false);
 
@@ -71,65 +62,75 @@ export const VerificationCode = (props: VerificationCodeProps) => {
     <Flex
       backgroundColor="white"
       flexDirection="column"
-      width="696PX"
-      borderRadius="9px"
-      boxShadow="0px 4px 10px rgba(0, 0, 0, 0.15)"
-      px="52px"
+      width="43.5rem"
+      borderRadius=".5625rem"
+      boxShadow="0rem .25rem .625rem rgba(0, 0, 0, 0.15)"
+      px="3.25rem"
       justify="center"
     >
-      <EmailVerificationIcon mt="60px" mb="32px" />
-      <Heading fontSize="30px" fontWeight="bold" textAlign="center">
+      <EmailVerificationIcon mt="3.75rem" mb="2rem" />
+      <Heading fontSize="1.875rem" fontWeight="bold" textAlign="center">
         Check your email
       </Heading>
-      <Text fontSize="16px" fontWeight="400" textAlign="center" color="#667085">
+      <Text
+        fontSize="1rem"
+        fontWeight="400"
+        textAlign="center"
+        color="palette.gray.medium"
+      >
         We sent a verification link to
       </Text>
       <Text
-        fontSize="16px"
+        fontSize="1rem"
         fontWeight="bold"
         textAlign="center"
-        color="#667085"
+        color="palette.gray.medium"
       >
         {props.email}
       </Text>
-      <HStack mt="32px" justify="center">
+      <HStack mt="2rem" justify="center">
         <PinInput
           size="lg"
           placeholder=""
           defaultValue={props.code}
           onComplete={setCode}
         >
-          <PinInputField height="80px" width="80px" />
-          <PinInputField height="80px" width="80px" />
-          <PinInputField height="80px" width="80px" />
+          <PinInputField height="5rem" width="5rem" />
+          <PinInputField height="5rem" width="5rem" />
+          <PinInputField height="5rem" width="5rem" />
           <Box
             border="none"
             borderRadius="0"
-            width="20px"
-            height="8px"
+            width="1.25rem"
+            height=".5rem"
             backgroundColor="#D0D5DD"
           />
-          <PinInputField height="80px" width="80px" />
-          <PinInputField height="80px" width="80px" />
-          <PinInputField height="80px" width="80px" />
+          <PinInputField height="5rem" width="5rem" />
+          <PinInputField height="5rem" width="5rem" />
+          <PinInputField height="5rem" width="5rem" />
         </PinInput>
       </HStack>
       <Flex justify="center">
         <Button
           variant="green"
-          width="360px"
-          my="32px"
+          width="22.5rem"
+          my="2rem"
           onClick={onVerifyCode}
           isLoading={isVerifying}
         >
           Verify email
         </Button>
       </Flex>
-      <Text fontSize="16px" fontWeight="400" color="#667085" textAlign="center">
+      <Text
+        fontSize="1rem"
+        fontWeight="400"
+        color="palette.gray.medium"
+        textAlign="center"
+      >
         Didn&apos;t receive the email?&nbsp;
         <Text
           as="span"
-          color="#6941C6"
+          color="palette.purple.link"
           onClick={onHandleResendCode}
           cursor="pointer"
         >
@@ -138,14 +139,14 @@ export const VerificationCode = (props: VerificationCodeProps) => {
       </Text>
       <Text
         fontWeight="400"
-        color="#667085"
+        color="palette.gray.medium"
         textAlign="center"
-        mt="24px"
-        mb="60px"
+        mt="1.5rem"
+        mb="3.75rem"
       >
         Already have an account?&nbsp;
-        <NextLink href="/Login" passHref>
-          <Link as="span" color="#6941C6">
+        <NextLink href="/login" passHref>
+          <Link as="span" color="palette.purple.link">
             Log in
           </Link>
         </NextLink>

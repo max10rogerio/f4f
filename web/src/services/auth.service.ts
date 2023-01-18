@@ -12,8 +12,10 @@ export class AuthService {
     await api.get("/sanctum/csrf-cookie");
   }
 
-  static async login(email: string, password: string): Promise<any> {
-    return api.post("/api/auth/login", { email, password });
+  static async login(email: string, password: string): Promise<LoginResponse> {
+    return api
+      .post<LoginResponse>("/api/auth/login", { email, password })
+      .then((response) => response.data);
   }
 
   static async register(
@@ -40,3 +42,7 @@ export class AuthService {
     await api.post("/api/auth/verify-code", { email, code });
   }
 }
+
+export type LoginResponse = {
+  token: string;
+};
